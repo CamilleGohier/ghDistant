@@ -1,0 +1,25 @@
+#!/bin/bash
+# Add this file on your .git/hooks/ and name it as 'pre-commit'
+
+# The path to store the commit info file
+INFO_FILE="suivi/commitInfo.txt"
+
+# Function to get current date and time
+get_current_date_time() {
+    date +"%Y-%m-%d %H:%M:%S"
+}
+
+read -p "Ajouter un fichier d'information de commit (y/[n]) ?" yn < /dev/tty
+yn=${yn:n}
+case $yn in
+ [Yy]* )
+ # Create the directory if it doesn't exist
+ mkdir -p "$(dirname "$INFO_FILE")"
+ # Write commit info to file
+ echo "commit vérifié le $(get_current_date_time)" > "$INFO_FILE"
+ git add "$INFO_FILE"
+ exit 0;;
+ [Nn]* )
+ exit 0;;
+esac
+exit 0
